@@ -21,13 +21,13 @@ def allPosts(request):
         'allposts': posts,
         'form': form,
         }
-    return render(request, 'post/allposts.html', context)
+    return render(request, 'allposts.html', context)
     
 
 def post(request, postID):
     post = Post.objects.get(id = postID)
     context = {'post': post}
-    return render(request, 'post/post.html', context)
+    return render(request, 'post.html', context)
 
 # def createPost(request):
 #     posts = Post.objects.all()

@@ -7,7 +7,7 @@ from django.contrib import messages
 from  django.contrib.auth.models import User
 
 def home(request):
-    return render(request, 'login/base.html')
+    return render(request, 'base.html')
 
 def signin(request):
     
@@ -26,7 +26,7 @@ def signin(request):
                         return redirect("home")
                 else:
                     messages.info(request,"Invalid username or password")
-        return render(request, "login/signin.html")
+        return render(request, "signin.html")
 
 def signout(request):
     if request.user.is_authenticated:
