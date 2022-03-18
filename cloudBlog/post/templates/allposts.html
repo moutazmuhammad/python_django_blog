@@ -24,29 +24,34 @@
     {% for post in allposts %}      
     <div class="container" style="padding: 10px;">
         <div class="card shadow col-lg-7 mx-auto">
-
-            <div class="card-body">
-
-                    <div class="row">
-                        <small style="text-align: right;">{{post.created}}</small>
-                        <hr>
-                        <span><img src="https://i.imgur.com/hczKIze.jpg" width="70" class="user-img rounded-circle mr-2"><a class="h3" href="" style="text-decoration: none"> {{post.user}} | </a>
+                <div class="card-body">
+                    <!-- Name of user and title -->
+                <div class="row">
+                    <small style="text-align: right;">{{post.created}}</small>
+                    <hr>
+                    <span> 
+                        <img src="https://i.imgur.com/hczKIze.jpg" width="70" class="user-img rounded-circle mr-2"> 
+                        <a class="h3" href="" style="text-decoration: none; margin-left: 5px">{{post.user}}</a>
+                    </span>
+                    <div class="mt-1" style="text-align: justify; margin: 0px;">
                         <a class="h4" href="{% url 'post' post.id %}" style="text-decoration: none">{{post.title}}</a></span>
-                        <p style="text-align: justify;">{{post.body}}</p>
-                    </div>
-                    <div class="row">
-                        {% if post.image %}
-                        <div class="text-center">
-                            <a href="{% url 'post' post.id %}"><img src="{{ post.image.url }}" alt="image" class="img-thumbnail"></a>
-                        </div>
-                        {% endif %}
+                        <p>{{post.body}}</p>
                     </div>
                 </div>
-
+                <!-- Image -->
+                <div class="row">
+                    {% if post.image %}
+                    <div class="text-center">
+                        <img src="{{ post.image.url }}" alt="image" class="img-thumbnail">
+                    </div>
+                    {% endif %}
+                </div>
+                </div>
             
         </div>
 
     </div>
+   
     {% endfor %}
     
     {% endblock %} 

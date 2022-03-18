@@ -1,3 +1,4 @@
+from tkinter import Y
 from turtle import pos
 from django.shortcuts import render, redirect, HttpResponse
 from .models import Post
@@ -7,7 +8,7 @@ from .form import CommentForm, PostForm, EditPostForm
 # Create your views here.
 
 def allPosts(request):
-    posts = Post.objects.all()
+    posts = Post.objects.order_by('-created')[:5] 
     form = PostForm()
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)

@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from post.views import allPosts
 
 urlpatterns = [
-    path('', allPosts, name='main' ),
+    path('', allPosts, name='main'),
     path('admin/', admin.site.urls, name='admin'),
     path('', include('post.urls')), # [''] without post dir name to enter site by localhost:8000 only
     path('', include('signup.urls')),
