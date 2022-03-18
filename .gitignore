@@ -758,7 +758,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-
+cloudBlog/cloudBlog/media
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 

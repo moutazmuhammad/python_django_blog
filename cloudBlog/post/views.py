@@ -27,7 +27,6 @@ def allPosts(request):
 
 def showPost(request, postID):
     post = Post.objects.get(id = postID)
-
     # To enter a new comment
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
@@ -47,26 +46,29 @@ def showPost(request, postID):
 
 
 def postEdit(request, postID):
-    post = Post.objects.get(id = postID)
-    form = EditPostForm(instance=post)
-    if request.method=='POST':
-        form = EditPostForm(request.POST, request.FILES, instance=post)
-        if form.is_valid():
-            form.save()
-            return redirect('post', postID=post.id)
-        else:
-            form = EditPostForm(instance=post)
+    if request.user.is_authenticated:
+        post = Post.objects.get(id = postID)
+        form = EditPostForm(instance=post)
+        if request.method=='POST':
+            form = EditPostForm(request.POST, request.FILES, instance=post)
+            if form.is_valid():
+                form.save()
+                return redirect('post', postID=post.id)
+            else:
+                form = EditPostForm(instance=post)
 
-    context = {
-        'post': post, 
-        'form': form
-        }
-    return render(request, 'editpost.html', context)
+        context = {
+            'post': post, 
+            'form': form
+            }
+        return render(request, 'editpost.html', context)
+    else:
+        return redirect('allposts')
 
 
 def postDelete(request, postID):
-    post = Post.objects.get(id=postID)
-    post.delete()
+    if request.user.is_authenticated and request.user.is_superuser:
+        post = Post.objects.get(id=postID)
+        post.delete()
     return redirect('allposts')
-
 

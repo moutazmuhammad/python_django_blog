@@ -3,11 +3,12 @@ from django.shortcuts import redirect, render
 from django.template import RequestContext
 from django.contrib.auth import login , authenticate, logout
 from django.contrib import messages
-
+from post.models import Post, Comment
+from post.form import PostForm
 from  django.contrib.auth.models import User
 
 def home(request):
-    return render(request, 'base.html')
+    return redirect('allposts')
 
 def signin(request):
     
@@ -19,13 +20,17 @@ def signin(request):
                 enteredPassword = request.POST.get("password")
                 user = authenticate(username=enteredUsername , password= enteredPassword)
                 if user is not None:
-                    login(request,user)
-                    if request.GET.get('next') is not None:  
-                        return redirect(request.GET.get('next'))
+                    if user.is_active:
+                        login(request,user)
+                        if request.GET.get('next') is not None:  
+                            return redirect(request.GET.get('next'))
+                        else:
+                            return redirect("home")
                     else:
-                        return redirect("home")
+                        messages.info(request,"You're Blocked by the admin")
                 else:
                     messages.info(request,"Invalid username or password")
+                    return redirect("signin")
         return render(request, "signin.html")
 
 def signout(request):

@@ -1,4 +1,3 @@
-from ctypes.wintypes import POINT
 from curses import meta
 from distutils.command.upload import upload
 from operator import mod
