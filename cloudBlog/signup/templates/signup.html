@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+{% load crispy_forms_tags %}
+
+
+ <style>
+
+.errorlist
+    {
+    list-style: none;
+    color: red;
+    width: 62%;
+    font-size: 12px;
+    font-weight: 900;
+    }
+
+ </style>
+<body>
+	<div class="container h-100">
+		<div class="d-flex justify-content-center h-100 py-5 px-5">
+			<div class="user_card">
+				<div class="d-flex justify-content-center ">
+					<h1>Sign Up</h1>
+				</div>
+				<div class="d-flex justify-content-center form_container">
+
+					<form method="POST" action=""> {% csrf_token  %}
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
+							{{form.username}}
+						</div>
+
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+							</div>
+							{{form.email}}
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							{{form.password1}}
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							{{form.password2}}
+						</div>
+
+				   		  <div class="d-flex justify-content-center mt-3 login_container">
+				 			<input class="btn  btn-primary" type="submit" value="Sign Up">
+				   		</div>
+
+					</form>
+				</div>
+                  <div class="d-flex justify-content-center mt-3 ">
+                      {{form.errors}}
+                  </div>
+				<div class="mt-4">
+					<div class="d-flex justify-content-center links">
+						Already have an account? <a href="{% url 'signin' %}" class="ml-2">Login</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+
+		var form_fields = document.getElementsByTagName('input')
+		form_fields[1].placeholder='Username..';
+		form_fields[2].placeholder='Email..';
+		form_fields[3].placeholder='Enter password...';
+		form_fields[4].placeholder='Re-enter Password...';
+		for (var field in form_fields){
+			form_fields[field].className += ' form-control'
+		}
+	</script>
+</body>
+</html>
+{% endblock %}
+
+
