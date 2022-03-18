@@ -35,7 +35,7 @@ def postEdit(request, postID):
     post = Post.objects.get(id = postID)
     form = EditPostForm(instance=post)
     if request.method=='POST':
-        form = EditPostForm(request.POST, instance=post)
+        form = EditPostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
             return redirect('post', postID=post.id)
