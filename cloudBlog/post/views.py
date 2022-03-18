@@ -48,4 +48,9 @@ def postEdit(request, postID):
         }
     return render(request, 'editpost.html', context)
 
+def postDelete(request, postID):
+    post = Post.objects.get(id=postID)
+    post.delete()
+    return redirect('allposts')
+
 

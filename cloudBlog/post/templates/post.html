@@ -14,7 +14,7 @@
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <a class="btn btn-primary" type="Post" href="{% url 'allposts' %}">Home</a>
         <a class="btn btn-info" type="Post" href="{% url 'editpost' post.id %}">Edit</a>
-        <a class="btn btn-danger" type="Post">Delete</a>
+        <a class="btn btn-danger" type="Post" href="{% url 'deletepost' post.id %}">Delete</a>
     </div>
     <div class="card shadow col-lg-7 mx-auto">
 
