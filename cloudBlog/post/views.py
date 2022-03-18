@@ -1,7 +1,7 @@
 from turtle import pos
 from django.shortcuts import render, redirect, HttpResponse
 from .models import Post
-from .form import PostForm, EditPostForm
+from .form import CommentForm, PostForm, EditPostForm
 
 
 # Create your views here.
@@ -27,7 +27,22 @@ def allPosts(request):
 
 def showPost(request, postID):
     post = Post.objects.get(id = postID)
-    context = {'post': post}
+
+    # To enter a new comment
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            instance = comment_form.save(commit=False) # commit=False means not save yet
+            instance.user = request.user # send user name with comment
+            instance.post = post # make relation between post and comment
+            instance.save()
+            return redirect('post', postID = post.id)
+    else:
+        comment_form = CommentForm()
+    context = {
+        'post': post,   
+        'comment_form': comment_form
+        }
     return render(request, 'post.html', context)
 
 
@@ -47,6 +62,7 @@ def postEdit(request, postID):
         'form': form
         }
     return render(request, 'editpost.html', context)
+
 
 def postDelete(request, postID):
     post = Post.objects.get(id=postID)

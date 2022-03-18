@@ -20,23 +20,23 @@ class Post(models.Model):
     class Meta:
         ordering= ('-created',)
 
+    # To get number of comment use relationship between Post and Comment models
     def comment_count(self):
         return self.comment_set.all().count()
 
+    # To all comment use relationship between Post and Comment models
     def comments(self):
         return self.comment_set.all()
 
     def __str__(self):
         return self.title
 
+
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     body = models.CharField(max_length=300)
     comment_data = models.DateTimeField(default=timezone.now)
-
-    class Meta:
-        ordering= ('-comment_data',)
 
     def __str__(self):
         return self.body

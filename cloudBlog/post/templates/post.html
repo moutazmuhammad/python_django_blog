@@ -25,10 +25,13 @@
                 <hr>
                 <span> 
                     <img src="https://i.imgur.com/hczKIze.jpg" width="70" class="user-img rounded-circle mr-2"> 
-                    <a class="h3" href="" style="text-decoration: none">{{post.user}} | </a>
-                    <a class="h4" href="{% url 'post' post.id %}" style="text-decoration: none">{{post.title}}</a>
+                    <a class="h3" href="" style="text-decoration: none; margin-left: 5px">{{post.user}}</a>
+                   
                 </span>
-                    <p class="mt-3" style="text-align: justify;">{{post.body}}</p>
+                <div class="mt-1" style="text-align: justify; margin: 0px;">
+                    <h4>{{post.title}}</h4>
+                    <p>{{post.body}}</p>
+                </div>
             </div>
             <!-- Image -->
             <div class="row">
@@ -50,13 +53,23 @@
                                     <img src="https://i.imgur.com/hczKIze.jpg" width="40" class="user-img rounded-circle mr-2">
                                 </div> 
                                 <div>
-                                    <a class="h5" href="" style="text-decoration: none;">  {{ comment.user }}</a><br/>
-                                    <small style="font-size: x-small;">  {{ comment.comment_data }}</small>
+                                    <a class="h5" href="" style="text-decoration: none;margin-left: 5px;">{{ comment.user }}</a><br/>
+                                    <small style="font-size: x-small; margin-left: 5px;">{{ comment.comment_data }}</small>
                                 </div>
                         </div>
-                        <p style="text-align: justify; margin-left: 20px; margin-top: 5px;">{{ comment.body }}</p>
+                        <p style="text-align: justify; margin-left: 20px; margin-top: 5px; margin-right: 20px;">{{ comment.body }}</p>
                     </div>  
                     {% endfor %}
+                </div>
+                <!-- Enter new Comment -->
+                {% load crispy_forms_tags %}
+                <div class="row d-flex justify-content-center mt-2">
+                    <form method="POST"> {% csrf_token %}
+                        {{ comment_form|crispy }}
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-1">
+                            <button class="btn btn-success" type="Save">Comment</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
