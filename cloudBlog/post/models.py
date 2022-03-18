@@ -10,9 +10,9 @@ from django.utils import timezone
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=User.first_name)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField(default=' ')
-    image = models.ImageField(upload_to='postImages/', default='postImages/default.png')
+    image = models.ImageField(blank=True, null=True, upload_to='images/')
     created = models.DateTimeField(default=timezone.now)
 
     class Meta:

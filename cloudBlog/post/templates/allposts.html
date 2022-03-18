@@ -14,7 +14,7 @@
         <div class="card shadow col-lg-7 mx-auto">
             <div class="card-body">
 
-                <form method="POST"> {% csrf_token %}
+                <form method="POST" enctype="multipart/form-data"> {% csrf_token %}
                     {{ form|crispy }}
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-primary" type="Post">Post</button>
@@ -36,13 +36,13 @@
                         <a class="h4" href="">{{post.title}}</a>
                         <p style="text-align: justify;">{{post.body}}</p>
                     </div>
-
                     <div class="row">
+                        {% if post.image %}
                         <div class="text-center">
-                            <img src="{{post.image}}" alt="image" class="img-thumbnail">
+                            <img src="{{ post.image.url }}" alt="image" class="img-thumbnail">
                         </div>
+                        {% endif %}
                     </div>
-
                 </div>
 
             
