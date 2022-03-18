@@ -8,12 +8,12 @@ from post.form import PostForm
 from  django.contrib.auth.models import User
 
 def home(request):
-    return redirect('allposts')
+    return redirect('main')
 
 def signin(request):
     
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('main')
     else:
         if request.method == 'POST':
                 enteredUsername = request.POST.get("username")
@@ -25,7 +25,7 @@ def signin(request):
                         if request.GET.get('next') is not None:  
                             return redirect(request.GET.get('next'))
                         else:
-                            return redirect("home")
+                            return redirect("main")
                     else:
                         messages.info(request,"You're Blocked by the admin")
                 else:
@@ -36,7 +36,7 @@ def signin(request):
 def signout(request):
     if request.user.is_authenticated:
         logout(request)
-        return redirect('home')
+        return redirect('main')
     else:
-        return redirect('home')
+        return redirect('main')
         
