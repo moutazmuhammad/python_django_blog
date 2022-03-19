@@ -6,25 +6,30 @@ from .form import CommentForm, PostForm, EditPostForm, CategoryForm, TagsForm
 
 
 def add_cat(request):
-	form = CategoryForm()
-	if request.method == "POST":
-		form = CategoryForm(request.POST)
-		if form.is_valid():
-			form.save()
-			return redirect ('allposts')
-	context = {'form': form}
-	return render(request, 'add_cat.html', context)
+    if request.user.is_authenticated and request.user.is_superuser:
+        form = CategoryForm()
+        if request.method == "POST":
+            form = CategoryForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect ('allposts')
+        context = {'form': form}
+        return render(request, 'add_cat.html', context)
+    else:
+        return redirect('allposts')   
 
 def add_tag(request):
-	form = TagsForm()
-	if request.method == "POST":
-		form = TagsForm(request.POST)
-		if form.is_valid():
-			form.save()
-			return redirect ('allposts')
-	context = {'form': form}
-	return render(request, 'add_tag.html', context)
-
+    if request.user.is_authenticated and request.user.is_superuser:
+        form = TagsForm()
+        if request.method == "POST":
+            form = TagsForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect ('allposts')
+        context = {'form': form}
+        return render(request, 'add_tag.html', context)
+    else:
+        return redirect('allposts') 
 
 # Create your views here.
 
@@ -97,33 +102,34 @@ def postDelete(request, postID):
 
 def likePost(request):
     user = request.user
-    if request.method == 'POST':
-        post_id = request.POST.get('post_id')
-        post_obj = Post.objects.get(id=post_id)
+    if user.is_authenticated:
+        if request.method == 'POST':
+            post_id = request.POST.get('post_id')
+            post_obj = Post.objects.get(id=post_id)
 
-        if user in post_obj.liked.all():
-            post_obj.liked.remove(user)
-            post_obj.disliked.add(user)
-        else:
-            post_obj.liked.add(user)
-            post_obj.disliked.remove(user)
-        
-        post_obj.save()
+            if user in post_obj.liked.all():
+                post_obj.liked.remove(user)
+                post_obj.disliked.add(user)
+            else:
+                post_obj.liked.add(user)
+                post_obj.disliked.remove(user)
+            
+            post_obj.save()
     return redirect('allposts')
 
 def dislikePost(request):
     user = request.user
-    if request.method == 'POST':
-        post_id = request.POST.get('post_id')
-        post_obj = Post.objects.get(id=post_id)
+    if user.is_authenticated:
+        if request.method == 'POST':
+            post_id = request.POST.get('post_id')
+            post_obj = Post.objects.get(id=post_id)
 
-        if user in post_obj.disliked.all():
-            post_obj.disliked.remove(user)
-            post_obj.liked.add(user)
-        else:
-            post_obj.disliked.add(user)
-            post_obj.liked.remove(user)
-        
-        post_obj.save()
-    
+            if user in post_obj.disliked.all():
+                post_obj.disliked.remove(user)
+                post_obj.liked.add(user)
+            else:
+                post_obj.disliked.add(user)
+                post_obj.liked.remove(user)
+            
+            post_obj.save()
     return redirect('allposts')
