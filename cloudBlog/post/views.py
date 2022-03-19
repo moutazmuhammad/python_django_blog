@@ -3,7 +3,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from .models import Post, Like, Dislike, Category, Tags
 from .form import CommentForm, PostForm, EditPostForm, CategoryForm, TagsForm
-from post.models import Post, Comment, Category
+from post.models import Post, Comment, Category, Tags
 
 def add_cat(request):
     if request.user.is_authenticated and request.user.is_superuser:
@@ -60,47 +60,32 @@ def categoryPosts(request, categoryID):
     posts = Post.objects.filter(category= categoryID)
     form = PostForm()
     categories = Category.objects.all()
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.user = request.user
-            instance.save()
-            form.save_m2m()
-            return redirect('allposts')
-        else:
-            form = PostForm()
+    tags = Tags.objects.all()
     context = {
         'allposts': posts,
         'form': form,
         'categories': categories,
+        'tags': tags,
         }
     return render(request, 'allposts.html', context)
 
 def tagPosts(request, tagID):
-    posts = Post.objects.filter(tag= tagID)
+    posts = Post.objects.filter(tags= tagID)
     form = PostForm()
+    tags = Tags.objects.all()
     categories = Category.objects.all()
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.user = request.user
-            instance.save()
-            form.save_m2m()
-            return redirect('allposts')
-        else:
-            form = PostForm()
     context = {
         'allposts': posts,
         'form': form,
         'categories': categories,
+        'tags': tags,
         }
     return render(request, 'allposts.html', context)
 
 def showPost(request, postID):
     post = Post.objects.get(id = postID)
     categories = Category.objects.all()
+    tags = Tags.objects.all()
     # To enter a new comment
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
@@ -116,6 +101,7 @@ def showPost(request, postID):
         'post': post,   
         'comment_form': comment_form,
         'categories': categories,
+        'tags': tags,
         }
     return render(request, 'post.html', context)
 
@@ -125,6 +111,7 @@ def postEdit(request, postID):
         post = Post.objects.get(id = postID)
         form = EditPostForm(instance=post)
         categories = Category.objects.all()
+        tags = Tags.objects.all()
         if request.method=='POST':
             form = EditPostForm(request.POST, request.FILES, instance=post)
             if form.is_valid():
@@ -136,7 +123,8 @@ def postEdit(request, postID):
         context = {
             'post': post, 
             'form': form,
-             'categories': categories,
+            'categories': categories,
+            'tags': tags,
             }
         return render(request, 'editpost.html', context)
     else:
