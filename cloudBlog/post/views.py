@@ -1,7 +1,7 @@
 #from tkinter import Y
 #from turtle import pos
 from django.shortcuts import render, redirect, HttpResponse
-from .models import Post, Like, Dislike
+from .models import Post, Like, Dislike, Category, Tags
 from .form import CommentForm, PostForm, EditPostForm, CategoryForm, TagsForm
 
 
@@ -36,6 +36,8 @@ def add_tag(request):
 def allPosts(request):
     posts = Post.objects.order_by('-created')[:5] 
     form = PostForm()
+    categories = Category.objects.all()
+    tags = Tags.objects.all()
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -49,9 +51,52 @@ def allPosts(request):
     context = {
         'allposts': posts,
         'form': form,
+        'categories': categories,
+        'tags' :tags,
         }
     return render(request, 'allposts.html', context)
-    
+
+def categoryPosts(request, categoryID):
+    posts = Post.objects.filter(category= categoryID)
+    form = PostForm()
+    categories = Category.objects.all()
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            form.save_m2m()
+            return redirect('allposts')
+        else:
+            form = PostForm()
+    context = {
+        'allposts': posts,
+        'form': form,
+        'categories': categories,
+        }
+    return render(request, 'allposts.html', context)
+
+def tagPosts(request, tagID):
+    posts = Post.objects.filter(tag= tagID)
+    form = PostForm()
+    categories = Category.objects.all()
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            form.save_m2m()
+            return redirect('allposts')
+        else:
+            form = PostForm()
+    context = {
+        'allposts': posts,
+        'form': form,
+        'categories': categories,
+        }
+    return render(request, 'allposts.html', context)
 
 def showPost(request, postID):
     post = Post.objects.get(id = postID)
