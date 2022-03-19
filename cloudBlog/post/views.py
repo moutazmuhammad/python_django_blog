@@ -1,7 +1,7 @@
 from tkinter import Y
 from turtle import pos
 from django.shortcuts import render, redirect, HttpResponse
-from .models import Post
+from .models import Post, Like, Dislike
 from .form import CommentForm, PostForm, EditPostForm
 
 
@@ -73,3 +73,35 @@ def postDelete(request, postID):
         post.delete()
     return redirect('allposts')
 
+def likePost(request):
+    user = request.user
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        post_obj = Post.objects.get(id=post_id)
+
+        if user in post_obj.liked.all():
+            post_obj.liked.remove(user)
+            post_obj.disliked.add(user)
+        else:
+            post_obj.liked.add(user)
+            post_obj.disliked.remove(user)
+        
+        post_obj.save()
+    return redirect('allposts')
+
+def dislikePost(request):
+    user = request.user
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        post_obj = Post.objects.get(id=post_id)
+
+        if user in post_obj.disliked.all():
+            post_obj.disliked.remove(user)
+            post_obj.liked.add(user)
+        else:
+            post_obj.disliked.add(user)
+            post_obj.liked.remove(user)
+        
+        post_obj.save()
+    
+    return redirect('allposts')
