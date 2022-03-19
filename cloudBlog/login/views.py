@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.template import RequestContext
 from django.contrib.auth import login , authenticate, logout
 from django.contrib import messages
-from post.models import Post, Comment
+from post.models import Category
 from post.form import PostForm
 from  django.contrib.auth.models import User
 
@@ -16,6 +16,7 @@ def signin(request):
     if request.user.is_authenticated:
         return redirect('main')
     else:
+        categories = Category.objects.all()
         if request.method == 'POST':
                 enteredUsername = request.POST.get("username")
                 enteredPassword = request.POST.get("password")
@@ -36,7 +37,7 @@ def signin(request):
                             return redirect(request.GET.get('next'))
                     else:
                         return redirect("main")
-        return render(request, "signin.html")
+        return render(request, "signin.html" , context={'categories': categories})
 
 def signout(request):
     if request.user.is_authenticated:
