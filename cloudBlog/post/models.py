@@ -2,10 +2,20 @@ from curses import meta
 from distutils.command.upload import upload
 from operator import mod
 from pyexpat import model
-from turtle import pos
+#from turtle import pos
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+
+#model category
+
+class Category(models.Model):
+    name = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.name
+
+#model tag
 
 # Create your models here.
 
@@ -17,6 +27,9 @@ class Post(models.Model):
     created = models.DateTimeField(default=timezone.now)
     liked = models.ManyToManyField(User, blank=True, default=None, related_name= 'liked')
     disliked = models.ManyToManyField(User, blank=True, default=None, related_name= 'disliked')
+	#category foreign
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+	#tag manytomany
 
     class Meta:
         ordering= ('-created',)
@@ -42,10 +55,6 @@ class Comment(models.Model):
     def __str__(self):
         return self.body
 
-# LIKE_CHOICSE={
-#     ('Like', 'Like'),
-#     ('Dislike', 'Dislike'),
-# }
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
