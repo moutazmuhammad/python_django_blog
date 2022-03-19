@@ -23,31 +23,24 @@
             <div class="row">
                 <small style="text-align: right;">{{post.created}}</small>
                 <hr>
-                <div style="display: flex; margin-left: 10px; margin-top: 5px;">
-                    <div>
-                        <img src="https://i.imgur.com/hczKIze.jpg" width="70" class="user-img rounded-circle mr-2">
-                    </div> 
-                    <div>
-                        <a class="h3" href="" style="text-decoration: none; margin-left: 5px">{{post.user}}</a> <br>
-                        <!-- post category -->
-                        <a href="#" style='text-decoration:none;'
-                        class="badge badge-primary">{{post.category }}</a>                   
-                     </div>
-                </div>
-		        
+                <span> 
+                    <img src="https://i.imgur.com/hczKIze.jpg" width="70" class="user-img rounded-circle mr-2"> 
+                    <a class="h3" href="" style="text-decoration: none; margin-left: 5px">{{post.user}}</a>
+                   
+                </span>
+		<!-- post category -->
+		<div><a href="#" style='margin:10px auto; text-decoration:none;' class="badge badge-primary">{{ post.category }}</a></div>
 
-                <div class="mt-1" style="text-align: justify;">
+		<!-- post tags -->
+		<div>
+			{% for i in post.tags.all %}
+				<a href="#" style='margin:10px auto; text-decoration:none;' class="badge badge-secondary">#{{ i }}</a>
+			{% endfor %}
+		</div>
+                <div class="mt-1" style="text-align: justify; margin: 0px;">
                     <h4>{{post.title}}</h4>
                     <p>{{post.body}}</p>
                 </div>
-                <!-- post tags -->
-                <div>
-                    {% for i in post.tags.all %}
-                        <a href="#" style='margin-bottom:5px; text-decoration:none;' class="badge badge-secondary">#{{ i }}</a>
-                    {% endfor %}
-                </div>
-
-                
             </div>
             <!-- Image -->
             <div class="row">
@@ -60,7 +53,7 @@
 
             <!-- Like and Dislike -->
             <div style="display: flex;">
-                <div style="margin-top: 5px;">
+                <div style="margin-top: 12px;">
                     <form action="{% url 'like-post' %}" method="POST" class="ui form">{% csrf_token %} 
                         <input type="hidden" name="post_id" value="{{ post.id }}">                        
                             <div style="display: flex;">
@@ -80,10 +73,8 @@
                             </div>
                     </form>
                 </div>
-
-                <div style="margin-top: 5px;">
+                <div style="margin-top: 12px;">
                     <form action="{% url 'dislike-post' %}" method="POST" class="ui form">{% csrf_token %} 
-
                         <input type="hidden" name="post_id" value="{{ post.id }}">
     
                             <div style="display: flex; margin-left: 30px;">
@@ -99,22 +90,21 @@
                                     </button>
                                     {% endif %}
                                 </div>
+                                
                             </div>
-
                     </form>
                 </div>
-
             </div>
         </div>
 
 
             <!-- Comments -->
-            <div class="row d-flex justify-content-center mt-1">      
+            <div class="row d-flex justify-content-center mt-2">      
                 <div class="col-md-11">
                     <span class="text-primary">Comments ({{ post.comment_count }})</span>
                     {% for comment in post.comment_set.all %}
-                    <div class="card">
-                        <div style="display: flex; margin-left: 10px;">
+                    <div class="card mt-1">
+                        <div style="display: flex; margin-left: 10px; margin-top: 5px;">
                                 <div>
                                     <img src="https://i.imgur.com/hczKIze.jpg" width="40" class="user-img rounded-circle mr-2">
                                 </div> 
@@ -123,17 +113,17 @@
                                     <small style="font-size: x-small; margin-left: 5px;">{{ comment.comment_data }}</small>
                                 </div>
                         </div>
-                        <p style="text-align: justify; margin-left: 20px; margin-right: 20px;">{{ comment.body }}</p>
+                        <p style="text-align: justify; margin-left: 20px; margin-top: 5px; margin-right: 20px;">{{ comment.body }}</p>
                     </div>  
                     {% endfor %}
                 </div>
                 <!-- Enter new Comment -->
                 {% load crispy_forms_tags %}
                 {% if user.is_authenticated %}
-                <div class="row d-flex justify-content-center" style="margin-bottom: 5px; margin-top: 5px;">
+                <div class="row d-flex justify-content-center mt-2">
                     <form method="POST"> {% csrf_token %}
                         {{ comment_form|crispy }}
-                        <div class="d-md-flex justify-content-md-end">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-1">
                             <button class="btn btn-success" type="Save">Comment</button>
                         </div>
                     </form>
