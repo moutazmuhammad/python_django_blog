@@ -2,10 +2,20 @@ from curses import meta
 from distutils.command.upload import upload
 from operator import mod
 from pyexpat import model
-from turtle import pos
+#from turtle import pos
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+
+#model category
+
+class Category(models.Model):
+    name = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.name
+
+#model tag
 
 # Create your models here.
 
@@ -15,6 +25,9 @@ class Post(models.Model):
     body = models.TextField(default=' ')
     image = models.ImageField(blank=True, null=True, upload_to='images/')
     created = models.DateTimeField(default=timezone.now)
+	#category foreign
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+	#tag manytomany
 
     class Meta:
         ordering= ('-created',)
@@ -39,6 +52,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.body
-
-
 

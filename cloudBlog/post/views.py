@@ -1,8 +1,19 @@
-from tkinter import Y
-from turtle import pos
+#from tkinter import Y
+#from turtle import pos
 from django.shortcuts import render, redirect, HttpResponse
 from .models import Post
-from .form import CommentForm, PostForm, EditPostForm
+from .form import CommentForm, PostForm, EditPostForm, CategoryForm
+
+
+def add_cat(request):
+	form = CategoryForm()
+	if request.method == "POST":
+		form = CategoryForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect ('allposts')
+	context = {'form': form}
+	return render(request, 'add_cat.html', context)
 
 
 # Create your views here.
