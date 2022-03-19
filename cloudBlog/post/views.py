@@ -2,9 +2,7 @@
 #from turtle import pos
 from django.shortcuts import render, redirect, HttpResponse
 from .models import Post, Like, Dislike
-from .form import CommentForm, PostForm, EditPostForm
-from .models import Post
-from .form import CommentForm, PostForm, EditPostForm, CategoryForm
+from .form import CommentForm, PostForm, EditPostForm, CategoryForm, TagsForm
 
 
 def add_cat(request):
@@ -16,6 +14,16 @@ def add_cat(request):
 			return redirect ('allposts')
 	context = {'form': form}
 	return render(request, 'add_cat.html', context)
+
+def add_tag(request):
+	form = TagsForm()
+	if request.method == "POST":
+		form = TagsForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect ('allposts')
+	context = {'form': form}
+	return render(request, 'add_tag.html', context)
 
 
 # Create your views here.
@@ -29,6 +37,7 @@ def allPosts(request):
             instance = form.save(commit=False)
             instance.user = request.user
             instance.save()
+            form.save_m2m()
             return redirect('allposts')
         else:
             form = PostForm()

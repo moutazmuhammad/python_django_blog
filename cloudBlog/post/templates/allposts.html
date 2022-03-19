@@ -14,6 +14,8 @@
                 <form method="POST" enctype="multipart/form-data"> {% csrf_token %}
                     {{ form|crispy }}
                     <a href="{% url 'add_cat' %}">add new category...</a>
+		    <br>
+                    <a href="{% url 'add_tag' %}">add new tag...</a>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-success" type="Post">Post</button>
                     </div>
@@ -35,8 +37,14 @@
                         <a class="h3" href="" style="text-decoration: none; margin-left: 5px">{{post.user}}</a>
                     </span>
 		    <!-- post category -->
-		    <div><span style='margin:10px auto' class="badge badge-secondary">{{ post.category }}</span></div>
-		    <!-- <span>#{{ post.tags }}</span> -->
+		    <div><a href="#" style='margin:10px auto; text-decoration:none;' class="badge badge-primary">{{ post.category }}</a></div>
+
+		    <!-- post tags -->
+		    <div>
+		    {% for i in post.tags.all %}
+		    <a href="#" style='margin:10px auto; text-decoration:none;' class="badge badge-secondary">#{{ i }}</a>
+		    {% endfor %}
+		    </div>
                     <div class="mt-1" style="text-align: justify; margin: 0px;">
                         <a class="h4" href="{% url 'post' post.id %}" style="text-decoration: none">{{post.title}}</a></span>
                         <p>{{post.body}}</p>

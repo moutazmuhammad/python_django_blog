@@ -17,6 +17,14 @@ class Category(models.Model):
 
 #model tag
 
+
+class Tags(models.Model):
+    name = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.name
+
+
 # Create your models here.
 
 class Post(models.Model):
@@ -30,6 +38,7 @@ class Post(models.Model):
 	#category foreign
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
 	#tag manytomany
+    tags = models.ManyToManyField(Tags)
 
     class Meta:
         ordering= ('-created',)
