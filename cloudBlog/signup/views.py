@@ -22,7 +22,8 @@ def signupPage(request):
                 messages.success(request, "Account Created Successfully")
                 return redirect('signin')
         context = {'form': form,
-                'categories': categories
+                'categories': categories,
+                "messages" : messages
         }
         return render(request, 'signup.html', context)
 
