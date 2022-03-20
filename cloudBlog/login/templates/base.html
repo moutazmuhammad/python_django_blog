@@ -41,10 +41,6 @@
       padding: 0;
       width: 200px;
       background-color: #ffffff;
-      height: 200vh;
-      position: absolute;
-      top: 3rem;
-      bottom: 0;
     }
 
     .sidebar a {
@@ -108,8 +104,9 @@
       </ul>
     </div>
   </nav>
-
-  <div class="sidebar card shadow" style="margin-top: 20px; margin-left: 30px; width: 20%;">
+  <div class="container" style="width: 90%; padding: 0; background-color: bisque; max-width: 100%;">
+    <div class="row">
+    <div class="sidebar card shadow col-md-3" style="margin-top: 20px; margin-left: 5px; width: 20%;">
     {% for category in categories %}
     {% if user.is_authenticated %}
     <a style="margin-left: 10px; font-size: x-large; font-weight: bold;" href="{% url 'categoryPosts' category.id %}">{{category.name }}</a>
@@ -130,9 +127,14 @@
     {% endfor %}
     {% endif %}
   </div>
+   <div class="col-md-12" style="margin-top: 20px; margin-left: 30px; width: 70%; background-color: transparent;">
   {% block content %}
 
   {% endblock %}
+ 
+</div>
+</div>
+</div>
 </body>
-
+  
 </html>

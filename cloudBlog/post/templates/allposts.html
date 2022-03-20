@@ -7,14 +7,14 @@
 
 {% load crispy_forms_tags %}
 {% if allposts.count > 0 %}
-
+<div class="card shadow ">
 {% if user.is_superuser %}
-<div class="container flexclass" style="padding: 40px;">
+<div class="container" style="padding: 40px;">
     <div class="row mt-5">
         <div class="col-md-3">
 
         </div>
-        <div class="card shadow col-md-9">
+        <div class="card shadow">
             <div class="card-body">
 
                 <form method="POST" enctype="multipart/form-data"> {% csrf_token %}
@@ -32,12 +32,9 @@
 </div>
 {% endif %}
 {% for post in allposts %}
-<div class="container">
-    <div class="row mt-5">
-        <div class="col-md-3">
 
-        </div>
-        <div class="card shadow col-md-9">
+
+       
             <div class="card-body">
                 <!-- Name of user and title -->
                 <div class="row">
@@ -129,10 +126,8 @@
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-</div>
+
+
 {% endfor %}
 {% else %}
 {% if user.is_superuser %}
@@ -154,4 +149,5 @@
 </div>
 {% endif %}
 {% endif %}
+</div>
 {% endblock %}
