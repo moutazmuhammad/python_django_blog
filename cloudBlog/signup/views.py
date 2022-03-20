@@ -26,32 +26,3 @@ def signupPage(request):
         }
         return render(request, 'signup.html', context)
 
-def allUsers(request):
-    st = User.objects.all()
-    context = {"all_users": st}
-    return render(request, 'manage-users.html', context)
-
-
-
-def showUser(request, userid):
-    userID = User.objects.get(id=userid)
-    context = {'id': userID}
-    return render(request, 'show-user.html', context)
-
-
-def delUser(request, userid):
-    user = User.objects.get(id=userid)
-    user.delete()
-    return redirect('all-users')
-
-def blockUser(request,userid):
-    user = User.objects.get(id=userid)
-    user.is_active = False
-    user.save()
-    return redirect('all-users')
-
-def unblockUser(request,userid):
-    user = User.objects.get(id=userid)
-    user.is_active = True
-    user.save()
-    return redirect('all-users')

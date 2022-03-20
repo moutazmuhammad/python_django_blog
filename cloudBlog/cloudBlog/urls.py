@@ -11,6 +11,7 @@ urlpatterns = [
     path('', include('post.urls')), # [''] without post dir name to enter site by localhost:8000 only
     path('', include('signup.urls')),
     path('', include('login.urls')),
+    path('', include('manageblog.urls')),
 
 ]
 

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'post',
     'login',
     'signup',
+    'manageblog',
 ]
 
 MIDDLEWARE = [

@@ -6,10 +6,6 @@ from . import  views
 
 urlpatterns = [
   path('signup/', views.signupPage, name='signup'),
-  path('all-users/', views.allUsers, name='all-users'),
-  path('show-user/<userid>', views.showUser, name='show-user'),
-  path('del-user/<userid>', views.delUser, name='del-user'),
-  path('block-user/<userid>', views.blockUser, name='block-user'),
-  path('unblock-user/<userid>', views.unblockUser, name='unblock-user'),
+
 
 ]

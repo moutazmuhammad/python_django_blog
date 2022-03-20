@@ -14,5 +14,9 @@
 <h2>Username:{{id.username }}</h2>
 <h2>Email :{{id.email }}</h2>
 <h2>Is Staff: {{id.is_staff }}</h2>
-<h4><a href="{%url 'all-users' %}"> Back</a></h4>
- {%  endblock%}
+<h2>Is Active: {{id.is_active }}</h2>
+<h2>Last Login: {{id.last_login }}</h2>
+<h2>Date Joined : {{id.date_joined }}</h2>
+
+<a class="btn btn-success" href="{%url 'all-users' %}"> Back</a>
+ {%endblock%}
