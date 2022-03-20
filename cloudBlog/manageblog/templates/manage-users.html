@@ -20,6 +20,7 @@
         <th>Edit User</th>
         <th>Delete User</th>
         <th>Block User</th>
+         <th>Promote User</th>
 
     </tr>
     {%for user in all_users%}
@@ -43,12 +44,18 @@
      {% if not user.is_superuser %}
 
         <td><a class ="btn btn-danger" href="{% url 'del-user' user.id%}">Delete User</a></td>
-        {% if   user.is_active %}
+
+                    {% if   user.is_active %}
         <td><a class ="btn btn-warning" href="{% url 'block-user' user.id%}">Block</a></td>
-        {%else%}
-                <td><a class ="btn btn-info" href="{% url 'unblock-user' user.id%}">UnBlock</a></td>
-        {% endif %}
-        {% endif %}
+             {%else%}
+        <td><a class ="btn btn-info" href="{% url 'unblock-user' user.id%}">UnBlock</a></td>
+            {% endif %}
+          <td><a class ="btn btn-success" href="{% url 'admin-user' user.id%}"> Make Admin</a></td>
+    {% else %}
+         <td></td>
+         <td></td>
+        <td><a class ="btn btn-info" href="{% url 'unadmin-user' user.id%}">Un Admin</a></td>
+     {% endif %}
 
     </tr>
     {%endfor%}
