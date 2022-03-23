@@ -93,26 +93,26 @@ def addCat(request):
     else:
         return redirect('all-cats')
 
-# def editCat(request, catid):
-#     if request.user.is_authenticated:
-#         cat = Category.objects.get(id = catid)
-#         form = CategoryForm(instance=cat)  
-#         if request.method=='POST':
-#             form = CategoryForm(request.POST, instance=cat)
-#             if form.is_valid():
-#                 form.save()
-#                 return redirect('all-cats')
-#             else:
-#                 form = CategoryForm(instance=cat)
-# 
-#         context = {
-#          
-#             'categories': categories,
-#           
-#             }
-#         return render(request, 'edit-cat.html', context)
-#     else:
-#         return redirect('all-cats')
+def editCat(request, catid):
+    if request.user.is_authenticated:
+        cat = Category.objects.get(id = catid)
+        form = CategoryForm(instance=cat)  
+        if request.method=='POST':
+            form = CategoryForm(request.POST, instance=cat)
+            if form.is_valid():
+                form.save()
+                return redirect('all-cats')
+            else:
+                form = CategoryForm(instance=cat)
+
+        context = {
+         
+            'form': form,
+          
+            }
+        return render(request, 'edit-cat.html', context)
+    else:
+        return redirect('all-cats')
 
 
 # def editUser(request, userid):

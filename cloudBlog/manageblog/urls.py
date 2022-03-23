@@ -19,7 +19,7 @@ urlpatterns = [
   # Manges Categories Urls
   path('all-cats/', views.allCats, name='all-cats'),
   path('addCat/', views.addCat, name='add-cat'),
-  # path('editCat/', views.editCat, name='edit-cat'),
+  path('editCat/<catid>', views.editCat, name='edit-cat'),
   path('del-cat/<catid>', views.delCat, name='delete-cat')
  
 
