@@ -61,11 +61,22 @@ def categoryPosts(request, categoryID):
     form = PostForm()
     categories = Category.objects.all()
     tags = Tags.objects.all()
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            form.save_m2m()
+            return redirect('allposts')
+        else:
+            form = PostForm()
     context = {
         'allposts': posts,
         'form': form,
         'categories': categories,
         'tags': tags,
+        'form': form
         }
     return render(request, 'allposts.html', context)
 
@@ -74,11 +85,22 @@ def tagPosts(request, tagID):
     form = PostForm()
     tags = Tags.objects.all()
     categories = Category.objects.all()
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            form.save_m2m()
+            return redirect('allposts')
+        else:
+            form = PostForm()
     context = {
         'allposts': posts,
         'form': form,
         'categories': categories,
         'tags': tags,
+        'form': form
         }
     return render(request, 'allposts.html', context)
 
